@@ -80,6 +80,12 @@
                 {{- end }}
             </div>
         </div>
+
+        <div id="searchbox">
+            <input id="searchInput" type="search" placeholder="Search" aria-label="search" autocomplete="off">
+            <ul id="searchResults" aria-label="search results"></ul>
+        </div>
+
         {{- $currentPage := . }}
         <ul id="menu">
             {{- range site.Menus.main }}
@@ -108,3 +114,12 @@
         </ul>
     </nav>
 </header>
+
+
+{{- if (not .Params.disableSearch) -}}
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+{{- $opts := dict "minify" true "target" "es2015" "format" "esm" -}}
+<!-- {{- $fastsearch := resources.Get "js/fastsearch.js" | resources.ExecuteAsTemplate "js/fastsearch.js" . | minify | fingerprint -}} -->
+{{- $fastsearch := resources.Get "js/fastsearch.js" | js.Build $opts | fingerprint -}}
+<script type="module" defer src="{{ $fastsearch.RelPermalink }}" integrity="{{ $fastsearch.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end -}}

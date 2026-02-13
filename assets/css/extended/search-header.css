@@ -1,0 +1,65 @@
+#searchbox {
+    position: relative;
+    margin-left: 20px;
+    display: flex;
+    align-items: center; /* 헤더 중앙 정렬 */
+}
+
+#searchbox input {
+    width: 400px; /* 기존보다 약 2배 확장 */
+    height: 32px; /* 글자 높이에 맞춘 적절한 높이 */
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--entry);
+    color: var(--primary);
+    outline: none;
+    transition: width 0.3s ease; /* 클릭 시 더 넓어지는 효과 (선택) */
+}
+
+#searchbox input:focus {
+    border-color: var(--tertiary);
+}
+
+#searchResults {
+    position: absolute;
+    top: calc(100% + 5px); /* input box와 살짝 간격 유지 */
+    right: 0;
+    width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--theme);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    z-index: 999;
+    padding: 0; /* 내부 여백 초기화 */
+    margin: 0;
+    list-style: none;
+    
+    /* [중요] 내용이 비어있으면 화면에서 완전히 제거 */
+    display: none; 
+}
+
+/* fastsearch.js가 결과를 채워 넣었을 때만 보이게 설정 */
+#searchResults:not(:empty) {
+    display: block;
+    padding: 10px;
+}
+
+/* 개별 리스트 아이템 디자인 */
+#searchResults li {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+#searchResults li:last-child {
+    border-bottom: none;
+}
+
+#searchResults li:hover, #searchResults li.focus {
+    background: var(--tertiary); /* 마우스 호버나 키보드 포커스 시 색상 */
+}
