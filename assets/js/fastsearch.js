@@ -68,38 +68,70 @@ function activeToggle(ae) {
 
 function reset() {
     resultsAvailable = false;
+    document.querySelector('#resultsWrapper').style.display = 'none';
     resList.innerHTML = sInput.value = ''; // clear inputbox and searchResults
     sInput.focus(); // shift focus to input box
 }
 
 // execute search as each character is typed
 sInput.onkeyup = function (e) {
+    const query = this.value.trim();
+    const wrapper = document.querySelector('#resultsWrapper');
+
     // run a search query (for "term") every time a letter is typed
     // in the search box
-    if (fuse) {
+    if (fuse && query) {
         let results;
         if (params.fuseOpts) {
             results = fuse.search(this.value.trim(), {limit: params.fuseOpts.limit}); // the actual query being run using fuse.js along with options
         } else {
             results = fuse.search(this.value.trim()); // the actual query being run using fuse.js
         }
+
         if (results.length !== 0) {
             // build our html if result exists
-            let resultSet = ''; // our results bucket
+            let resultSet = `
+                <div id="searchTitle">Search Results</div>
+                <div id="listWrapper">
+                <ul>
+                `;
 
             for (let item in results) {
-                resultSet += `<li class="post-entry"><header class="entry-header">${results[item].item.title}&nbsp;»</header>` +
-                    `<a href="${results[item].item.permalink}" aria-label="${results[item].item.title}"></a></li>`
-            }
+                const res = results[item].item;
+                // 날짜 포맷팅 (YYYY-MM-DD)
+                const date = res.date ? new Date(res.date).toISOString().split('T')[0] : '';
+                // 요약 글자수 제한 (150자)
+                const summary = res.summary ? res.summary : (res.content ? res.content.substring(0, 150) + '...' : '');
 
+                resultSet += `
+                    <li class="post-entry">
+                        <div class="res-header">
+                            <span class="res-title">${res.title}</span>
+                            <span class="res-date">${date}</span>
+                        </div>
+                        <div class="res-summary">${summary}</div>
+                        <a href="${res.permalink}" aria-label="${res.title}">
+                        </a>
+                    </li>`
+            }
+            resultSet += '</ul></div>'
             resList.innerHTML = resultSet;
+            wrapper.style.display = 'block';
             resultsAvailable = true;
             first = resList.firstChild;
             last = resList.lastChild;
         } else {
             resultsAvailable = false;
-            resList.innerHTML = '';
+            let emptySet = `
+                <div id="searchTitle">Search Results</div>
+                <div id="noResult">Not Found.</div>`;
+            resList.innerHTML = query ? emptySet : '';
+            wrapper.style.display = 'block';
         }
+    } else {
+        resList.innerHTML = '';
+        wrapper.style.display = 'none'; // 즉시 숨김
+        resultsAvailable = false;
     }
 }
 

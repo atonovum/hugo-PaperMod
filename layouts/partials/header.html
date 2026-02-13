@@ -83,7 +83,9 @@
 
         <div id="searchbox">
             <input id="searchInput" type="search" placeholder="Search" aria-label="search" autocomplete="off">
-            <ul id="searchResults" aria-label="search results"></ul>
+            <div id="resultsWrapper">
+                <div id="searchResults" aria-label="search results"></div>
+            </div>
         </div>
 
         {{- $currentPage := . }}
