@@ -1,27 +1,62 @@
 {{- define "main" }}
 
-{{- if .Title }}
 <header class="page-header">
-    <h1>{{ .Title }}</h1>
-    {{- if .Description }}
-    <div class="post-description">
-        {{ .Description }}
-    </div>
-    {{- end }}
+    <h2>Tags by Category</h2>
 </header>
-{{- end }}
 
-<ul class="terms-tags">
-    {{- $type := .Type }}
-    {{- range $key, $value := .Data.Terms.Alphabetical }}
-    {{- $name := .Name }}
-    {{- $count := .Count }}
-    {{- with site.GetPage (printf "/%s/%s" $type $name) }}
-    <li>
-        <a href="{{ .Permalink }}">{{ .Name }} <sup><strong><sup>{{ $count }}</sup></strong></sup> </a>
-    </li>
-    {{- end }}
-    {{- end }}
-</ul>
+{{- /* Create tags by category as a dictionary */ -}}
+{{- $catMap := dict -}}
+{{- $pages := where site.RegularPages "Section" "post" }}
+{{- range $pages -}}
+    {{- $currentPage := . -}}
+    {{- with .Params.categories -}}
+        {{- range . -}}
+            {{- $category := . -}}
+            {{- $tags := $currentPage.Params.tags -}}
+            {{- with $tags -}}
+                {{- range . -}}
+                    {{- $tag := . -}}
+                    {{- /* 카테고리 키가 없으면 새로 생성, 있으면 기존 태그 리스트에 추가 */ -}}
+                    {{- $currentTags := index $catMap $category | default slice -}}
+                    {{- if not (in $currentTags $tag) -}}
+                        {{- $currentTags = $currentTags | append $tag -}}
+                        {{- $catMap = merge $catMap (dict $category $currentTags) -}}
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* Render tags */ -}}
+<div class="tag-cloud-category">
+    {{- /* Sort keys of a dictionary */ -}}
+    {{- $sortedCatNames := slice -}}
+    {{- range $name, $items := $catMap -}}
+        {{- $sortedCatNames = $sortedCatNames | append $name -}}
+    {{- end -}}
+    {{- $sortedCatNames = sort $sortedCatNames "value" "desc" -}}
+
+    {{- range $category := $sortedCatNames -}}
+    {{- $tags := index $catMap $category -}}
+    <section class="category-section">
+        <h3 class="category-title">{{ $category }}</h3>
+        <ul class="terms-tags">
+            {{- range $tag := (sort $tags) -}}
+                {{- /* Get page links and count */ -}}
+                {{- $tagKey := ($tag | urlize) -}}
+                {{- $tagTerm := index site.Taxonomies.tags $tagKey -}}
+                {{- if $tagTerm -}}
+                <li class="tag-link">
+                    <a href="{{ "/tags/" | relLangURL }}{{ $tagKey }}/">
+                        {{ $tag }} <sup>{{ len $tagTerm.Pages }}</sup>
+                    </a>
+                </li>
+                {{- end -}}
+            {{- end -}}
+        </div>
+    </section>
+    {{- end -}}
+</div>
 
 {{- end }}{{/* end main */ -}}

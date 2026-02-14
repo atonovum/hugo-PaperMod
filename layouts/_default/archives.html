@@ -1,7 +1,7 @@
 {{- define "main" }}
 
 <header class="page-header">
-  <h1>
+  <h2>
     {{ .Title }}
     {{- if (.Param "ShowRssButtonInSectionTermList") }}
     {{- $rss := (.OutputFormats.Get "rss") }}
@@ -19,7 +19,7 @@
     </a>
     {{- end }}
     {{- end }}
-  </h1>
+  </h2>
   {{- if .Description }}
   <div class="post-description">
     {{ .Description }}
@@ -37,7 +37,7 @@
   {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
   {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
   <header class="entry-header">
-    <h2 class="entry-hint-parent">
+    <h3 class="entry-hint-parent">
       {{- .Title }}
       {{- if .Draft }}
       <span class="entry-hint" title="Draft">
@@ -47,7 +47,7 @@
         </svg>
       </span>
       {{- end }}
-    </h2>
+    </h3>
   </header>
   <footer class="entry-footer">
     {{- partial "post_meta.html" . -}}

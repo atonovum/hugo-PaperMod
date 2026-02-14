@@ -150,3 +150,11 @@
     color: #999;
     margin-top: 50px;
 }
+
+mark {
+    background: rgba(255, 225, 0, 0.4); /* 연한 노란색 */
+    color: inherit;
+    font-weight: bold;
+    border-radius: 2px;
+    padding: 0 2px;
+}

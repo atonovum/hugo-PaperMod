@@ -7,11 +7,12 @@
 {{ with .Site.GetPage "/intro.md" }}
   <article class="post-single">
     <header class="post-header">
-      <h1 class="post-title">{{ .Title }}</h1>
+      <h2 class="post-title">{{ .Title }}</h2>
     </header>
     <div class="post-content">
       {{ .Content }}
     </div>
+    This is "list.html".
   </article>
 {{ end }}
 {{- end }}

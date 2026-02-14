@@ -73,6 +73,24 @@ function reset() {
     sInput.focus(); // shift focus to input box
 }
 
+function createSnippet(contents, query) {
+    const snippetLength = 150; // the number of letters to show
+    const index = contents.toLowerCase().indexOf(query.toLowerCase());
+
+    // return front letters if no keyword is in contents.
+    if (index === -1) {
+        return contents.substring(0, snippetLength) + "...";
+    }
+
+    // extract back and forth context based on the keyword location.
+    let start = Math.max(0, index - (snippetLength / 2));
+    let end = Math.min(contents.length, start + snippetLength);
+
+    // adjust the number of words so it does not trim.
+    let snippet = contents.substring(start, end);
+    return (start > 0 ? "..." : "") + snippet + (end < contents.length ? "..." : "");
+}
+
 // execute search as each character is typed
 sInput.onkeyup = function (e) {
     const query = this.value.trim();
@@ -98,10 +116,10 @@ sInput.onkeyup = function (e) {
 
             for (let item in results) {
                 const res = results[item].item;
-                // 날짜 포맷팅 (YYYY-MM-DD)
+                // Date Format (YYYY-MM-DD)
                 const date = res.date ? new Date(res.date).toISOString().split('T')[0] : '';
-                // 요약 글자수 제한 (150자)
-                const summary = res.summary ? res.summary : (res.content ? res.content.substring(0, 150) + '...' : '');
+                const snippet = createSnippet(res.content, query);
+                const summary = snippet.replace(new RegExp(query, 'gi'), (match) => `<mark>${match}</mark>`);
 
                 resultSet += `
                     <li class="post-entry">

@@ -1,0 +1,26 @@
+.category-section {
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    background: var(--code-bg); /* 테마와 어울리는 배경 */
+    border-radius: 10px;
+}
+.category-title {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    font-size: 1.4rem;
+    color: var(--primary);
+    border-bottom: 2px solid var(--tertiary);
+    display: inline-block;
+}
+
+.terms-tags li {
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: transform 0.1s;
+}
+.terms-tags li:hover {
+    transform: scale(1.05);
+    background: var(--tertiary);
+    color: #fff;
+}
