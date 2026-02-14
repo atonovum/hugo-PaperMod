@@ -1,0 +1,86 @@
+/* 기본 (데스크톱): 우측 고정 */
+:root {
+    --toc-width: 300px;
+}
+
+#toc-container {
+    position: fixed;
+    top: 120px;
+    /* 1. 화면 중앙에서 시작 */
+    left: 50%; 
+    /* 2. 메인 너비의 절반만큼 오른쪽으로 이동 + 20px 여백 */
+    /* main-width가 변해도 자동으로 위치가 계산됩니다. */
+    margin-left: calc((var(--main-width) + var(--gap) * 10) / 2 + 20px);
+    
+    /* 3. 너비 설정: 최소는 콘텐츠에 맞게, 최대는 350px */
+    width: auto;
+    max-width: 350px;
+    min-width: 150px; /* 너무 좁아지는 것 방지 */
+    
+    height: fit-content;
+    z-index: 1;
+    font-size: 0.85rem;
+    
+    /* 가독성을 위해 텍스트가 넘칠 경우 생략 처리 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 화면이 작아져서 ToC가 포스트를 가리기 시작할 때 숨기거나 모바일 레이아웃으로 변경 */
+@media screen and (max-width: 1500px) { /* 적절한 임계값으로 조절 */
+    #toc-container {
+        display: none; /* 혹은 이전처럼 본문 상단으로 이동 */
+    }
+}
+
+.toc {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border-left: 2px solid darkslategray;
+}
+
+.toc .inner {
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. 하이라이트 스타일: 브라운/그레이 배경 + 어두운 글씨 */
+.toc .inner ul li a.active {
+    font-weight: bold;
+    color: black;
+    display: inline-block;
+    width: 100%;
+}
+
+/* 3. 기본 리스트 스타일 */
+.toc .inner ul {
+    list-style: none;
+    padding-left: 15px;
+    margin-inline-start: 0;
+}
+
+.toc .inner ul li {
+    margin: 5px 0;
+}
+
+.toc .inner ul li a {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.toc .inner ul li a:hover {
+    color: var(--primary);
+}
+
+/* 4. 모바일 대응: 상단에 박스 형태로 배치 */
+@media screen and (max-width: 1280px) {
+    #toc-container {
+        position: static;
+        width: 100%;
+        margin: 0 0 30px 0;
+        z-index: 10;
+    }
+}
