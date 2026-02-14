@@ -1,19 +1,40 @@
-{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
-{{- if and (gt (len $pages) 1) (in $pages . ) }}
-<nav class="paginav">
-  {{- with $pages.Next . }}
-  <a class="prev" href="{{ .Permalink }}">
-    <span class="title">« {{ i18n "prev_page" }}</span>
-    <br>
-    <span>{{- .Name -}}</span>
-  </a>
-  {{- end }}
-  {{- with $pages.Prev . }}
-  <a class="next" href="{{ .Permalink }}">
-    <span class="title">{{ i18n "next_page" }} »</span>
-    <br>
-    <span>{{- .Name -}}</span>
-  </a>
-  {{- end }}
-</nav>
-{{- end }}
+{{- $current := . -}}
+{{- $related_pages := slice -}}
+
+{{- if .Params.categories -}}
+    {{- /* Get the first category */ -}}
+    {{- $first_category := index .Params.categories 0 -}}
+    {{- $category_term := (index .Site.Taxonomies.categories ($first_category | urlize)) -}}
+    
+    {{- if $category_term -}}
+        {{- $related_pages = $category_term.Pages -}}
+    {{- end -}}
+{{- end -}}
+
+<section class="post-nav-list">
+    {{- if $related_pages -}}
+        <h3>Related in '{{ index .Params.categories 0 | title }}'</h3>
+        <ul>
+            {{- /* Get the 5 recent related posts */ -}}
+            {{- range first 5 $related_pages.ByDate.Reverse -}}
+                {{- $is_current := eq .Permalink $current.Permalink -}}
+                <li class="{{ if $is_current }}current-post{{ end }}">
+                    {{- if $is_current -}}
+                        <span><strong>{{ .Title }}</strong> (Reading)</span>
+                    {{- else -}}
+                        <a href="{{ .Permalink }}">{{ .Title }}</a>
+                    {{- end -}}
+                    <span class="nav-date">{{ .Date.Format "2006-01-02" }}</span>
+                </li>
+            {{- end -}}
+        </ul>
+    {{- else -}}
+        {{- /* Replace the most recent post in this section if no post (Fallback) */ -}}
+        <h3>Recent Posts</h3>
+        <ul>
+            {{- range first 5 (where site.RegularPages "Section" .Section).ByDate.Reverse -}}
+                <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+            {{- end -}}
+        </ul>
+    {{- end -}}
+</section>

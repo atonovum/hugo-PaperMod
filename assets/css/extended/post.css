@@ -1,0 +1,51 @@
+.post-title {
+    margin: 10px 0;
+    font-size: 40px;
+}
+
+.post-content {
+    line-height: 1.8;      /* 행간을 넓혀 가독성 확보 */
+    color: #2c3e50;        /* 너무 진한 검정색보다는 짙은 회색이 눈이 편함 */
+    font-size: 1.1rem;     /* 약 17.6px */
+}
+
+/* 헤딩 위계 정리 */
+.post-content h1 {
+    font-size: 2rem;       /* 32px */
+    margin: 2.5rem 0 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+}
+
+.post-content h2 {
+    font-size: 1.6rem;     /* 25.6px */
+    margin: 2rem 0 1rem;
+    font-weight: 700;
+}
+
+.post-content h3 {
+    font-size: 1.3rem;     /* 20.8px */
+    margin: 1.5rem 0 0.8rem;
+    font-weight: 600;
+}
+
+/* 문단 및 리스트 간격 */
+.post-content p {
+    margin-bottom: 1.5rem; /* 문단 사이의 확실한 여백 */
+}
+
+.post-content ul, .post-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+/* 강조 텍스트 */
+.post-content strong {
+    color: var(--primary); /* 테마의 기본 강조색 활용 */
+    font-weight: 700;
+}

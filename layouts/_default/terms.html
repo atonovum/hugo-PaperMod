@@ -6,7 +6,7 @@
 
 {{- /* Create tags by category as a dictionary */ -}}
 {{- $catMap := dict -}}
-{{- $pages := where site.RegularPages "Section" "post" }}
+{{- $pages := where site.RegularPages "Section" "archives" }}
 {{- range $pages -}}
     {{- $currentPage := . -}}
     {{- with .Params.categories -}}

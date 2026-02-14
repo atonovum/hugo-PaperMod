@@ -1,0 +1,34 @@
+.post-nav-list {
+    margin: 50px 0;
+    padding: 20px;
+    background: var(--code-bg);
+    border-radius: 8px;
+}
+
+.post-nav-list h3 {
+    border-left: 4px solid var(--tertiary);
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+
+.post-nav-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.post-nav-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-nav-list li.current-post {
+    color: var(--tertiary); /* 포인트 컬러 */
+    background: rgba(var(--tertiary-rgb), 0.1);
+}
+
+.nav-date {
+    font-size: 0.8rem;
+    color: var(--secondary);
+}

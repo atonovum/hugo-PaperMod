@@ -27,7 +27,7 @@
   {{- end }}
 </header>
 
-{{- $pages := where site.RegularPages "Section" "post" }}
+{{- $pages := where site.RegularPages "Section" "archives" }}
 {{- $paginator := .Paginate $pages }}
 
 {{- $term := .Data.Term }}

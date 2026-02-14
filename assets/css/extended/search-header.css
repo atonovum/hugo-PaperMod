@@ -40,7 +40,7 @@
     max-width: calc(var(--nav-width) + var(--gap) * 2);  /* 메뉴바 너비만큼 제한 */
     margin: 0 auto;    /* 중앙 정렬 */
     height: 100%;
-    background: #ffffff; /* [요청사항] ul은 화이트 색상 */
+    background: floralwhite;
     list-style: none;
     padding: 20px 40px; /* 하단 여백 확보 */
     display: flex;
@@ -52,12 +52,11 @@
 /* 타이틀 고정 (Sticky Header) */
 #searchTitle {
     flex-shrink: 0;
-    background: #ffffff;
-    padding: 30px 40px 20px 40px;
+    padding: 10px 40px 20px 40px;
     font-size: 1.8rem;
     font-weight: 800;
     color: #1a1a1a;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid gray;
     z-index: 10;
 }
 
@@ -103,7 +102,7 @@
 
 /* 항목 호버 효과 (배경만 살짝 변경) */
 #listWrapper .post-entry:hover {
-    background: #ededed;
+    background: antiquewhite;
     border-radius: 8px;
 }
 
